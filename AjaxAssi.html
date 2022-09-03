@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax Assigment</title>
+</head>
+<body>
+    <div id="showCD">
+        <input type="button" onclick="Previous()" value="<<">
+         <input type="button" onclick="Next()" value=">>">
+
+    </div>
+    <script type="text/javascript">
+    let i = 0;
+    let len;
+    let cd;
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function(){
+        const xmlDoc = xhttp.responseXML;
+        cd = xmlDoc.getElementsByTagName("CD");
+        len = cd.length;
+        displayCD(i);
+    }
+    xhttp.open("GET","/Ajax.xml");
+     xhttp.send();
+    
+    function displayCD(i){
+        document.getElementById("ShowCD").innerHTML = "Artist: " +
+        cd[i].getElementsByTagName("ARTIST")[0].childNodes[0].nodeValue+
+        "<br>Title: " +
+        cd[i].getElementsByTagName("TITLE")[0].childNodes[0].nodeValue+
+        "<br>Year: " +
+        cd[i].getElementsByTagName("YEAR")[0].childNodes[0].nodeValue;   
+        
+    }
+    function Next(){
+        if(i < len - 1){
+            i++;
+            displayCD(i);
+        }
+    }
+    function Previous(){
+        if(i > 0){
+            i--;
+            displayCD(i);
+        }
+    }
+    </script>
+</body>
+</html>
